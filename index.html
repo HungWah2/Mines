@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Land Mines Prediction</title>
+    <link rel="stylesheet" href="style.css">
+    <script src='https://unpkg.com/axios/dist/axios.min.js'></script>
+    <script>
+        function btnSubmit_Click() {
+            const URL = 'https://HungWah.pythonanywhere.com/predict';
+            const input = {
+                'v': parseFloat(document.getElementById('v-input').value),
+                'h': parseFloat(document.getElementById('h-input').value),
+                's': document.getElementById('s-input').value
+            };
+
+            axios.post(URL, input)
+                .then((response) => {
+                    const result = response.data.prediction;
+                    if (result) {
+                        document.getElementById('prediction-result').innerText = `Predicted Mine Class: ${result}`;
+                        changeBackground(result);  // Call function to change background
+                    } else {
+                        alert('SORRY BABY!');
+                    }
+                })
+                .catch((error) => {
+                    document.getElementById('prediction-result').innerText = `Error: ${error.message}`;
+                });
+        }
+
+        // Function to change the background based on prediction
+        function changeBackground(mineType) {
+            let imageUrl = '';
+            switch (mineType) {
+                case 'Anti-Tank':
+                    imageUrl = 'url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiwK0zs1PvoU0Pfp-3zMGVx_-B1RtVldK1Sowb1Q0FNAWGqBae0NPxJrTofN9OhB-rbMGBkuqqhumJl2xluf5DupUEmJ5jBqZL2fxJwnltJkqJLUIZbsImJuZ15wimwObgBIK8HlKBhTRHi/s1600/m15+mine+banner.png")';
+                    break;
+                case 'Anti-personnel':
+                    imageUrl = 'url("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/GYATA-64_cutaway.jpg/1200px-GYATA-64_cutaway.jpg")';
+                    break;
+                case 'Booby Trapped Anti-personnel':
+                    imageUrl = 'url("https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Landmine_anti-handling_devices.png/1200px-Landmine_anti-handling_devices.png")';
+                    break;
+                case 'M14 Anti-personnel':
+                    imageUrl = 'url("https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/M14_mine_cutaway_-_internal_view.png/1024px-M14_mine_cutaway_-_internal_view.png")';
+                    break;
+                case 'Null':
+                    imageUrl = 'url("https://j.gifs.com/r8Nrow.gif")';
+                    break;
+                default:
+                    imageUrl = 'url("https://j.gifs.com/r8Nrow.gif")';
+            }
+            document.getElementById('image-container').style.backgroundImage = imageUrl;
+        }
+    </script>
+</head>
+<body>
+    <div class="main-container">
+        <div class="form-container">
+            <h1>LandMines Prediction</h1>
+            <div class="input-group">
+                <label for="v-input">Enter Voltage (0 to 10.6 V):</label>
+                <input type='number' id='v-input' min='0' max='10.6' step='0.1'>
+            </div>
+            <div class="input-group">
+                <label for="h-input">Enter Height (0 to 20 cm):</label>
+                <input type='number' id='h-input' min='0' max='20' step='0.1'>
+            </div>
+            <div class="input-group">
+                <label for="s-input">Select Soil Type:</label>
+                <select id='s-input'>
+                    <option value='dry and sandy'>Dry and Sandy</option>
+                    <option value='dry and humus'>Dry and Humus</option>
+                    <option value='dry and limy'>Dry and Limy</option>
+                    <option value='humid and sandy'>Humid and Sandy</option>
+                    <option value='humid and humus'>Humid and Humus</option>
+                    <option value='humid and limy'>Humid and Limy</option>
+                </select>
+            </div>
+            <button onclick='btnSubmit_Click()'>Submit</button>
+            <div id="prediction-result"></div>
+        </div>
+        <div id="image-container" class="image-container"></div>
+    </div>
+</body>
+</html>

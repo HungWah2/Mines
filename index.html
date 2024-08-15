@@ -20,7 +20,7 @@
                     const result = response.data.prediction;
                     if (result) {
                         document.getElementById('prediction-result').innerText = `Predicted Mine Class: ${result}`;
-                        changeImage(result);  // Call function to change image
+                        changeBackground(result);  // Call function to change background
                     } else {
                         alert('SORRY BABY!');
                     }
@@ -30,29 +30,29 @@
                 });
         }
 
-        // Function to change the image based on prediction
-        function changeImage(mineType) {
+        // Function to change the background based on prediction
+        function changeBackground(mineType) {
             let imageUrl = '';
             switch (mineType) {
                 case 'Anti-Tank':
-                    imageUrl = 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiwK0zs1PvoU0Pfp-3zMGVx_-B1RtVldK1Sowb1Q0FNAWGqBae0NPxJrTofN9OhB-rbMGBkuqqhumJl2xluf5DupUEmJ5jBqZL2fxJwnltJkqJLUIZbsImJuZ15wimwObgBIK8HlKBhTRHi/s1600/m15+mine+banner.png';
+                    imageUrl = 'url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiwK0zs1PvoU0Pfp-3zMGVx_-B1RtVldK1Sowb1Q0FNAWGqBae0NPxJrTofN9OhB-rbMGBkuqqhumJl2xluf5DupUEmJ5jBqZL2fxJwnltJkqJLUIZbsImJuZ15wimwObgBIK8HlKBhTRHi/s1600/m15+mine+banner.png")';
                     break;
                 case 'Anti-personnel':
-                    imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/GYATA-64_cutaway.jpg/1200px-GYATA-64_cutaway.jpg';
+                    imageUrl = 'url("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/GYATA-64_cutaway.jpg/1200px-GYATA-64_cutaway.jpg")';
                     break;
                 case 'Booby Trapped Anti-personnel':
-                    imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Landmine_anti-handling_devices.png/1200px-Landmine_anti-handling_devices.png';
+                    imageUrl = 'url("https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Landmine_anti-handling_devices.png/1200px-Landmine_anti-handling_devices.png")';
                     break;
                 case 'M14 Anti-personnel':
-                    imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/M14_mine_cutaway_-_internal_view.png/1024px-M14_mine_cutaway_-_internal_view.png';
+                    imageUrl = 'url("https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/M14_mine_cutaway_-_internal_view.png/1024px-M14_mine_cutaway_-_internal_view.png")';
                     break;
                 case 'Null':
-                    imageUrl = 'https://j.gifs.com/r8Nrow.gif';
+                    imageUrl = 'url("https://j.gifs.com/r8Nrow.gif")';
                     break;
                 default:
-                    imageUrl = 'https://j.gifs.com/r8Nrow.gif';
+                    imageUrl = 'url("https://j.gifs.com/r8Nrow.gif")';
             }
-            document.getElementById('image').src = imageUrl;
+            document.getElementById('image-container').style.backgroundImage = imageUrl;
         }
     </script>
 </head>
@@ -82,9 +82,7 @@
             <button onclick='btnSubmit_Click()'>Submit</button>
             <div id="prediction-result"></div>
         </div>
-        <div id="image-container" class="image-container">
-            <img id="image" src="" alt="Predicted Mine Image">
-        </div>
+        <div id="image-container" class="image-container"></div>
     </div>
 </body>
 </html>
